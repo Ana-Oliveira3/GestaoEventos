@@ -1,0 +1,33 @@
+@model GestaoEventos.Models.Local
+
+<div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="col-md-5">
+        <div class="card shadow border-0 p-4">
+            <h4 class="text-danger mb-3">
+                <i class="fa-solid fa-triangle-exclamation me-2"></i>Excluir Local
+            </h4>
+            <hr />
+            <p class="text-muted">Tem certeza que deseja excluir o local abaixo? Esta ação não pode ser desfeita.</p>
+
+            <div class="mb-4">
+                <dl class="row">
+                    <dt class="col-sm-4">Nome</dt>
+                    <dd class="col-sm-8 fw-bold">@Html.DisplayFor(model => model.Nome)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Capacidade)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Capacidade)</dd>
+                </dl>
+            </div>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-danger py-2 shadow-sm fw-bold">
+                        <i class="fa-solid fa-trash me-1"></i> Confirmar Exclusão
+                    </button>
+                    <a asp-action="Index" class="btn btn-link text-muted">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

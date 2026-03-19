@@ -1,0 +1,34 @@
+@model GestaoEventos.Models.Local
+
+<div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="col-md-5">
+        <div class="card shadow border-0 p-4">
+            <h4 class="mb-3 text-success">
+                <i class="fa-solid fa-location-dot me-2"></i>Cadastrar Local
+            </h4>
+            <hr />
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Nome" class="form-control" placeholder="Ex: Centro de Convenções, Salão Nobre" />
+                    <label asp-for="Nome"></label>
+                    <span asp-validation-for="Nome" class="text-danger small"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Capacidade" class="form-control" placeholder="0" />
+                    <label asp-for="Capacidade"></label>
+                    <span asp-validation-for="Capacidade" class="text-danger small"></span>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success py-2 shadow-sm">
+                        <i class="fa-solid fa-check me-1"></i> Salvar Local
+                    </button>
+                    <a asp-action="Index" class="btn btn-link text-muted">Voltar para a lista</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
