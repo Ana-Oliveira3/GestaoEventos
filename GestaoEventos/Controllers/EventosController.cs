@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using GestaoEventos.Data;
+﻿using GestaoEventos.Data;
 using GestaoEventos.Models;
 using Microsoft.AspNetCore.Authorization;
-//using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace GestaoEventos.Controllers;
 
-//[Authorize(Roles = "Admin")] // Protege todas as ações de gerenciamento
 public class EventosController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -16,11 +14,10 @@ public class EventosController : Controller
     public EventosController(ApplicationDbContext context) => _context = context;
 
     // GET: Eventos
-    //No controller, definir as rotas e suas permissões
+    // No controller, definir as rotas e suas permissões
     [AllowAnonymous]
     public async Task<IActionResult> Index()
     {
-        // ORM com Join duplo: Traz dados da Categoria E do Local
         var eventos = await _context.Eventos
             .Include(e => e.Categoria)
             .Include(e => e.Local)
@@ -29,8 +26,8 @@ public class EventosController : Controller
         return View(eventos);
     }
 
-    // GET: Eventos/Create
     [Authorize(Roles = "Admin")]
+    // GET: Eventos/Create
     public IActionResult Create()
     {
         // Carrega as duas listas para os DropDowns na View
@@ -42,6 +39,7 @@ public class EventosController : Controller
     // POST: Eventos/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
+    /* Colocar a Role que tu permite ver essa página/ação */
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create(Eventos evento)
     {
@@ -52,7 +50,6 @@ public class EventosController : Controller
             return RedirectToAction(nameof(Index));
         }
 
-        // Repopula as listas em caso de erro de validação
         ViewBag.CategoriaId = new SelectList(_context.Categorias, "Id", "Nome", evento.CategoriaId);
         ViewBag.LocalId = new SelectList(_context.Locais, "Id", "Nome", evento.LocalId);
         return View(evento);
@@ -67,7 +64,6 @@ public class EventosController : Controller
         var evento = await _context.Eventos.FindAsync(id);
         if (evento == null) return NotFound();
 
-        // Carrega as listas selecionando os valores atuais do evento
         ViewBag.CategoriaId = new SelectList(_context.Categorias, "Id", "Nome", evento.CategoriaId);
         ViewBag.LocalId = new SelectList(_context.Locais, "Id", "Nome", evento.LocalId);
 
@@ -77,7 +73,6 @@ public class EventosController : Controller
     // POST: Eventos/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    //Colocar a role que tu permite ver essa página
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(int id, Eventos evento)
     {
@@ -101,6 +96,7 @@ public class EventosController : Controller
     {
         if (id == null) return NotFound();
 
+        // Include duplo para mostrar onde e que tipo de evento está sendo excluído
         var evento = await _context.Eventos
             .Include(e => e.Categoria)
             .Include(e => e.Local)
@@ -114,6 +110,7 @@ public class EventosController : Controller
     // POST: Eventos/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var evento = await _context.Eventos.FindAsync(id);

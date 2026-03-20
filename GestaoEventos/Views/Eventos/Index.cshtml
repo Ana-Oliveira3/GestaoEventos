@@ -38,6 +38,11 @@
                                 <i class="fa-solid fa-tag me-1"></i> @item.Categoria?.Nome
                             </span>
                         </td>
+                        <td class="align-middle">
+                            <span class="badge bg-info text-white shadow-sm">
+                                <i class="fa-solid fa-tag me-1"></i> @item.Local?.Nome
+                            </span>
+                        </td>
                         @*3. Coluna de ações: visível apenas para admin *@
                         @if (User.IsInRole("Admin"))
                         {
