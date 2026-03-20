@@ -1,0 +1,58 @@
+﻿@model IEnumerable<GestaoEventos.Models.Eventos>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary"><i class="fa-solid fa-calendar-days me-2"></i>Próximos Eventos</h2>
+    @* 1. Botão de criar visível paenas para Admin*@
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create" class="btn btn-success shadow-sm">
+            <i class="fa-solid fa-plus me-1"></i> Novo Evento
+        </a>
+    }
+</div>
+
+<div class="card shadow border-0">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th class="ps-4">Título</th>
+                    <th>Data</th>
+                    <th>Local</th>
+                    <th>Categoria</th>
+                    @*2. Cabeçalho de ações: só aparece se for admin *@
+                    @if (User.IsInRole("Admin"))
+                    {
+                    <th class="text-center" style="width: 200px;">Ações</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-middle fw-bold ps-4">@item.Nome</td>
+                        <td class="align-middle">@item.Data.ToShortDateString()</td>
+                        <td class="align-middle">
+                            <span class="badge bg-info text-white shadow-sm">
+                                <i class="fa-solid fa-tag me-1"></i> @item.Categoria?.Nome
+                            </span>
+                        </td>
+                        @*3. Coluna de ações: visível apenas para admin *@
+                        @if (User.IsInRole("Admin"))
+                        {
+                        <td class="text-center align-middle">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning shadow-sm me-1">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger shadow-sm">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+﻿@model GestaoEventos.Models.Eventos
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow border-0 p-4 text-center">
+            <h4 class="text-danger mb-3"><i class="fa-solid fa-calendar-xmark fa-2x"></i><br>Excluir Evento?</h4>
+            <p>Deseja realmente excluir o evento: <strong>@Model.Nome</strong>?</p>
+            <div class="alert alert-light border">
+                <strong>Data:</strong> @Model.Data.ToShortDateString() <br>
+                <strong>Categoria:</strong> @Model.Categoria?.Nome
+                <strong>Categoria:</strong> @Model.Local?.Nome
+            </div>
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-danger py-2">Confirmar Exclusão</button>
+                    <a asp-action="Index" class="btn btn-link text-muted">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
